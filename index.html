@@ -6,133 +6,59 @@
 <title>Febrian Birthday</title>
 <style>
 /* ===== GLOBAL ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Courier New', Courier, monospace;
-}
-body {
-    background: #0f172a;
-    color: white;
-    overflow: hidden;
-}
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Courier New', Courier, monospace; }
+body { background:#0f172a; color:white; overflow:hidden; }
 
-/* ===== SECTION TRANSITION ===== */
+/* ===== SECTION ===== */
 section {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 40px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.5s ease;
+    position:absolute; inset:0;
+    display:flex; justify-content:center; align-items:center;
+    text-align:center; padding:40px;
+    opacity:0; pointer-events:none; transition:opacity 1.5s ease;
 }
-section.active {
-    opacity: 1;
-    pointer-events: auto;
-}
+section.active { opacity:1; pointer-events:auto; }
 
-/* ===== TEXT STYLES ===== */
-.big { font-size: 60px; letter-spacing: 4px; }
-.small { margin-top: 20px; opacity: 0.7; }
+/* ===== TEXT ===== */
+.big { font-size:60px; letter-spacing:4px; }
+.small { margin-top:20px; opacity:0.7; }
 
-/* ===== REFLECTION & MESSAGE ===== */
-.reflection {
-    font-size: 30px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1.5s ease;
-}
-.reflection.show { opacity: 1; transform: translateY(0); }
+.reflection { font-size:30px; opacity:0; transform:translateY(20px); transition:all 1.5s ease; }
+.reflection.show { opacity:1; transform:translateY(0); }
 
-.line {
-    margin: 10px;
-    opacity: 0;
-    transform: scale(0.95);
-    transition: all 1.5s ease;
-    font-size: 24px;
-}
-.line.show { opacity: 1; transform: scale(1); }
+.line { margin:10px; opacity:0; transform:scale(0.95); transition:all 1.5s ease; font-size:24px; }
+.line.show { opacity:1; transform:scale(1); }
 
-/* ===== INTERACTION TEXT (SCENE 3) ===== */
-#interactionText {
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    cursor: pointer;
-    animation: pulse 2s infinite;
-}
+/* ===== INTERACTION ===== */
+#interactionText { font-size:28px; font-weight:bold; letter-spacing:2px; cursor:pointer; animation:pulse 2s infinite; }
 @keyframes pulse {
-    0% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.05); }
-    100% { opacity: 0.6; transform: scale(1); }
+    0% { opacity:0.6; transform:scale(1); }
+    50% { opacity:1; transform:scale(1.05); }
+    100% { opacity:0.6; transform:scale(1); }
 }
 
 /* ===== TIMER ===== */
-.timer {
-    display: flex;
-    gap: 25px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-.timer > div {
-    background: rgba(255,255,255,0.05);
-    padding: 20px 25px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    min-width: 110px;
-}
-.number {
-    font-size: 42px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
+.timer { display:flex; gap:25px; justify-content:center; flex-wrap:wrap; }
+.timer > div { background:rgba(255,255,255,0.05); padding:20px 25px; border-radius:15px; backdrop-filter:blur(10px); min-width:110px; }
+.number { font-size:42px; font-weight:bold; margin-bottom:8px; }
 
 /* ===== SLIDESHOW ===== */
-.photo-container {
-    position: relative;
-    width: 300px;
-    height: 420px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    margin: 40px auto 0 auto;
-    background: #111827;
-}
-.countdown-photo {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-    z-index: 0;
-}
-.countdown-photo.active { opacity: 1; z-index: 1; }
+.photo-container { position:relative; width:300px; height:420px; border-radius:20px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,0.6); margin:40px auto 0; background:#111827; }
+.countdown-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s ease-in-out; z-index:0; }
+.countdown-photo.active { opacity:1; z-index:1; }
 
 /* ===== VIDEO ===== */
-iframe {
-    width: 80%;
-    height: 400px;
-    margin-top: 20px;
-    opacity: 0;
-    transform: scale(0.95);
-    transition: all 1.5s ease;
-}
-iframe.show { opacity: 1; transform: scale(1); }
+iframe { width:80%; height:400px; margin-top:20px; opacity:0; transform:scale(0.95); transition:all 1.5s ease; }
+iframe.show { opacity:1; transform:scale(1); }
 
 /* ===== FOOTER ===== */
-.footer-text {
-    margin-top: 40px;
-    opacity: 0.7;
-    max-width: 600px;
-    line-height: 1.6;
+.footer-text { margin-top:40px; opacity:0.7; max-width:600px; line-height:1.6; }
+
+/* ===== VIDEO BUTTON ===== */
+#videoStartBtn {
+    margin-top:20px; font-size:20px; padding:10px 20px; cursor:pointer; border:2px solid white; border-radius:10px;
+    background:rgba(255,255,255,0.1); color:white;
 }
+#videoStartBtn:hover { background:rgba(255,255,255,0.2); }
 </style>
 </head>
 <body>
@@ -169,6 +95,7 @@ iframe.show { opacity: 1; transform: scale(1); }
     <div>
         <div>Gue buat video, ditonton yaa!! Ini buatnya effort banget loh!!</div>
         <iframe id="video" src="https://www.youtube.com/embed/W5GzFwkf58g?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+        <div id="videoStartBtn">Klik untuk menonton video</div>
     </div>
 </section>
 
@@ -205,9 +132,6 @@ const today = new Date();
 /* ===== MUSIC ===== */
 const music = document.getElementById("bg-music");
 music.volume = 0.5;
-music.play().catch(()=>{
-    document.body.addEventListener("click",()=>{music.play();},{once:true});
-});
 
 /* ===== HELPER ===== */
 function showScene(id){
@@ -330,12 +254,24 @@ function startMessage(){
 /* ===== SCENE 5 (VIDEO) ===== */
 function startVideo(){
     const video = document.getElementById("video");
+    const btn = document.getElementById("videoStartBtn");
     video.classList.add("show");
 
-    // Load YouTube API jika belum ada
+    // Tampilkan tombol untuk memulai video
+    btn.style.display = "inline-block";
+
+    btn.onclick = () => {
+        btn.style.display = "none"; // hapus tombol
+        // mainkan musik juga setelah klik
+        music.play().catch(()=>{});
+        loadYouTubePlayer();
+    };
+}
+
+function loadYouTubePlayer(){
     if(!window.YT){
-        let tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
+        let tag=document.createElement('script');
+        tag.src="https://www.youtube.com/iframe_api";
         document.body.appendChild(tag);
     } else {
         onYouTubeIframeAPIReady();
@@ -346,9 +282,7 @@ let player;
 function onYouTubeIframeAPIReady(){
     player = new YT.Player('video', {
         events: {
-            'onReady': e => {
-                e.target.playVideo();
-            },
+            'onReady': e => e.target.playVideo(),
             'onStateChange': event => {
                 if(event.data === YT.PlayerState.ENDED){
                     showScene("scene6");
@@ -359,9 +293,10 @@ function onYouTubeIframeAPIReady(){
     });
 }
 
-/* ===== SCENE 6 (COUNTDOWN + SLIDESHOW) ===== */
+/* ===== SCENE 6 ===== */
 function startCountdown(){
     const startDate = new Date("2023-03-31T00:00:00");
+
     function update(){
         const now=new Date();
         let diff=now-startDate;
@@ -379,10 +314,10 @@ function startCountdown(){
     update();
 
     const photos = document.querySelectorAll(".countdown-photo");
-    let index = 0;
+    let index=0;
     setInterval(()=>{
         photos.forEach(p=>p.classList.remove("active"));
-        index = (index+1)%photos.length;
+        index=(index+1)%photos.length;
         photos[index].classList.add("active");
     },3000);
 }
