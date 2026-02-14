@@ -4,160 +4,134 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Febrian Birthday</title>
-
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Courier New', Courier, monospace;
+/* ===== GLOBAL ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
 }
-
-body{
-    background:#0f172a;
-    color:white;
-    overflow:hidden;
+body {
+    background: #0f172a;
+    color: white;
+    overflow: hidden;
 }
 
 /* ===== SECTION TRANSITION ===== */
-section{
-    position:absolute;
-    inset:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:40px;
-    opacity:0;
-    pointer-events:none;
-    transition:opacity 1.5s ease;
+section {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+}
+section.active {
+    opacity: 1;
+    pointer-events: auto;
 }
 
-section.active{
-    opacity:1;
-    pointer-events:auto;
-}
-
-.big{
-    font-size:60px;
-    letter-spacing:4px;
-}
-
-.small{
-    margin-top:20px;
-    opacity:0.7;
-}
+/* ===== TEXT STYLES ===== */
+.big { font-size: 60px; letter-spacing: 4px; }
+.small { margin-top: 20px; opacity: 0.7; }
 
 /* ===== REFLECTION & MESSAGE ===== */
-.reflection{
-    font-size:30px;
-    opacity:0;
-    transform:translateY(20px);
-    transition:all 1.5s ease;
+.reflection {
+    font-size: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1.5s ease;
 }
+.reflection.show { opacity: 1; transform: translateY(0); }
 
-.reflection.show{
-    opacity:1;
-    transform:translateY(0);
+.line {
+    margin: 10px;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 1.5s ease;
+    font-size: 24px;
 }
-
-.line{
-    margin:10px;
-    opacity:0;
-    transform:scale(0.95);
-    transition:all 1.5s ease;
-    font-size:24px;
-}
-
-.line.show{
-    opacity:1;
-    transform:scale(1);
-}
+.line.show { opacity: 1; transform: scale(1); }
 
 /* ===== INTERACTION TEXT (SCENE 3) ===== */
-#interactionText{
-    font-size:28px;
-    font-weight:bold;
-    letter-spacing:2px;
-    cursor:pointer;
-    animation:pulse 2s infinite;
+#interactionText {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    animation: pulse 2s infinite;
 }
-
-@keyframes pulse{
-    0%{ opacity:0.6; transform:scale(1); }
-    50%{ opacity:1; transform:scale(1.05); }
-    100%{ opacity:0.6; transform:scale(1); }
+@keyframes pulse {
+    0% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 0.6; transform: scale(1); }
 }
 
 /* ===== TIMER ===== */
-.timer{
-    display:flex;
-    gap:25px;
-    justify-content:center;
-    flex-wrap:wrap;
+.timer {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
-
-.timer > div{
-    background:rgba(255,255,255,0.05);
-    padding:20px 25px;
-    border-radius:15px;
-    backdrop-filter:blur(10px);
-    min-width:110px;
+.timer > div {
+    background: rgba(255,255,255,0.05);
+    padding: 20px 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    min-width: 110px;
 }
-
-.number{
-    font-size:42px;
-    font-weight:bold;
-    margin-bottom:8px;
+.number {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 8px;
 }
 
 /* ===== SLIDESHOW ===== */
-.photo-container{
-    position:relative;
-    width:300px;
-    height:420px;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 20px 50px rgba(0,0,0,0.6);
-    margin:40px auto 0 auto;
-    background:#111827;
+.photo-container {
+    position: relative;
+    width: 300px;
+    height: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    margin: 40px auto 0 auto;
+    background: #111827;
 }
-
-.countdown-photo{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    opacity:0;
-    transition:opacity 1s ease-in-out;
-    z-index:0;
+.countdown-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
 }
+.countdown-photo.active { opacity: 1; z-index: 1; }
 
-.countdown-photo.active{
-    opacity:1;
-    z-index:1;
+/* ===== VIDEO ===== */
+iframe {
+    width: 80%;
+    height: 400px;
+    margin-top: 20px;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 1.5s ease;
 }
+iframe.show { opacity: 1; transform: scale(1); }
 
-iframe{
-    width:80%;
-    height:400px;
-    margin-top:20px;
-    opacity:0;
-    transform:scale(0.95);
-    transition:all 1.5s ease;
-}
-
-iframe.show{
-    opacity:1;
-    transform:scale(1);
-}
-
-.footer-text{
-    margin-top:40px;
-    opacity:0.7;
-    max-width:600px;
-    line-height:1.6;
+/* ===== FOOTER ===== */
+.footer-text {
+    margin-top: 40px;
+    opacity: 0.7;
+    max-width: 600px;
+    line-height: 1.6;
 }
 </style>
 </head>
@@ -230,9 +204,7 @@ const today = new Date();
 const music = document.getElementById("bg-music");
 music.volume = 0.5;
 music.play().catch(()=>{
-    document.body.addEventListener("click",()=>{
-        music.play();
-    },{once:true});
+    document.body.addEventListener("click",()=>{music.play();},{once:true});
 });
 
 function showScene(id){
@@ -244,7 +216,6 @@ function showScene(id){
 function startOpening(){
     const main=document.getElementById("main");
     const sub=document.getElementById("sub");
-
     setTimeout(()=>{
         main.textContent="18 / 02 / 2026";
         sub.textContent="Hari ini.";
@@ -276,11 +247,8 @@ function countUp(start,end,duration,update,done){
         let progress=Math.min((time-startTime)/duration,1);
         let value=Math.floor(progress*(end-start)+start);
         update(value);
-        if(progress<1){
-            requestAnimationFrame(animate);
-        }else{
-            done();
-        }
+        if(progress<1) requestAnimationFrame(animate);
+        else done();
     }
     requestAnimationFrame(animate);
 }
@@ -288,14 +256,13 @@ function countUp(start,end,duration,update,done){
 /* SCENE 2 */
 function startReflection(){
     const reflections=[
-    "Jalannya ga selalu mudah. Tapi kita selalu berusaha buat nyoba terus.",
-    "Ada hari yang melelahkan. Ada hari yang menyenangkan.",
-    "Ntah udah berapa banyak debat yang kita lewatin.",
-    "Tapi sampai sekarang, kita masih memilih untuk tinggal."
+        "Jalannya ga selalu mudah. Tapi kita selalu berusaha buat nyoba terus.",
+        "Ada hari yang melelahkan. Ada hari yang menyenangkan.",
+        "Ntah udah berapa banyak debat yang kita lewatin.",
+        "Tapi sampai sekarang, kita masih memilih untuk tinggal."
     ];
     const el=document.getElementById("reflectionText");
     let i=0;
-
     function next(){
         if(i<reflections.length){
             el.classList.remove("show");
@@ -305,11 +272,9 @@ function startReflection(){
                 i++;
                 setTimeout(next,4000);
             },1000);
-        }else{
-            setTimeout(()=>{
-                showScene("scene3");
-                startInteraction();
-            },5000);
+        } else {
+            showScene("scene3");
+            startInteraction();
         }
     }
     next();
@@ -331,18 +296,17 @@ function startInteraction(){
 /* SCENE 4 */
 function startMessage(){
     const lines=[
-    "24...",
-    "Selamat ulang tahun, Febrian Rizky Anugrah.",
-    "Terima kasih sudah bertumbuh sejauh ini.",
-    "Terima kasih sudah tetap di sini.",
-    "Terima kasih sudah kuat dan hebat sampai saat ini.",
-    "Gue harap tahun ini lebih ringan buat lo.",
-    "Dan gue masih mau jadi bagian dari perjalanan itu.",
-    "Love, Ifa.",
+        "24...",
+        "Selamat ulang tahun, Febrian Rizky Anugrah.",
+        "Terima kasih sudah bertumbuh sejauh ini.",
+        "Terima kasih sudah tetap di sini.",
+        "Terima kasih sudah kuat dan hebat sampai saat ini.",
+        "Gue harap tahun ini lebih ringan buat lo.",
+        "Dan gue masih mau jadi bagian dari perjalanan itu.",
+        "Love, Ifa."
     ];
     const container=document.getElementById("messageContainer");
     let i=0;
-
     function next(){
         if(i<lines.length){
             const div=document.createElement("div");
@@ -352,11 +316,9 @@ function startMessage(){
             setTimeout(()=>div.classList.add("show"),100);
             i++;
             setTimeout(next,2000);
-        }else{
-            setTimeout(()=>{
-                showScene("scene5");
-                startVideo();
-            },5000);
+        } else {
+            showScene("scene5");
+            startVideo();
         }
     }
     next();
@@ -365,76 +327,58 @@ function startMessage(){
 /* SCENE 5 */
 function startVideo(){
     const video = document.getElementById("video");
-    setTimeout(()=> video.classList.add("show"), 2000);
-
-    // Load YouTube IFrame API
-    let tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
+    video.classList.add("show");
+    if(!window.YT){
+        let tag=document.createElement('script');
+        tag.src="https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+    } else onYouTubeIframeAPIReady();
 }
 
-// Variabel player global
 let player;
-
-// Panggilan otomatis oleh YouTube API
-function onYouTubeIframeAPIReady() {
+function onYouTubeIframeAPIReady(){
     player = new YT.Player('video', {
         events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            'onReady': e=>e.target.playVideo(),
+            'onStateChange': event=>{
+                if(event.data===YT.PlayerState.ENDED){
+                    showScene("scene6");
+                    startCountdown();
+                }
+            }
         }
     });
-}
-
-// Saat video siap, mainkan video
-function onPlayerReady(event) {
-    event.target.playVideo();
-}
-
-// Deteksi status video
-function onPlayerStateChange(event) {
-    // 0 = video selesai
-    if(event.data === YT.PlayerState.ENDED){
-        showScene("scene6");
-        startCountdown();
-    }
 }
 
 /* SCENE 6 */
 function startCountdown(){
     const startDate = new Date("2023-03-31T00:00:00");
-
     function update(){
-        const now = new Date();
-        let diff = now - startDate;
-        if(diff < 0) diff = 0;
-
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-
-        document.getElementById("days").textContent = days;
-        document.getElementById("hours").textContent = hours.toString().padStart(2,"0");
-        document.getElementById("minutes").textContent = minutes.toString().padStart(2,"0");
-        document.getElementById("seconds").textContent = seconds.toString().padStart(2,"0");
+        const now=new Date();
+        let diff=now-startDate;
+        if(diff<0) diff=0;
+        const days=Math.floor(diff/(1000*60*60*24));
+        const hours=Math.floor((diff/(1000*60*60))%24);
+        const minutes=Math.floor((diff/(1000*60))%60);
+        const seconds=Math.floor((diff/1000)%60);
+        document.getElementById("days").textContent=days;
+        document.getElementById("hours").textContent=hours.toString().padStart(2,"0");
+        document.getElementById("minutes").textContent=minutes.toString().padStart(2,"0");
+        document.getElementById("seconds").textContent=seconds.toString().padStart(2,"0");
     }
-
     setInterval(update,1000);
     update();
 
     const photos = document.querySelectorAll(".countdown-photo");
     let index = 0;
-
     setInterval(()=>{
-        photos.forEach(photo=>photo.classList.remove("active"));
-        index = (index + 1) % photos.length;
+        photos.forEach(p=>p.classList.remove("active"));
+        index = (index+1)%photos.length;
         photos[index].classList.add("active");
     },3000);
 }
 
 startOpening();
 </script>
-
 </body>
 </html>
