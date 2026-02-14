@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Febrian Birthday</title>
     <style>
-        /* ===== GLOBAL ===== */
+        /* ================= GLOBAL STYLES ================= */
         * {
             margin: 0;
             padding: 0;
@@ -19,7 +19,6 @@
             overflow: hidden;
         }
 
-        /* ===== SECTION ===== */
         section {
             position: absolute;
             inset: 0;
@@ -38,7 +37,7 @@
             pointer-events: auto;
         }
 
-        /* ===== TEXT ===== */
+        /* ================= TEXT STYLES ================= */
         .big {
             font-size: 60px;
             letter-spacing: 4px;
@@ -88,7 +87,7 @@
             100% { opacity: 0.6; transform: scale(1); }
         }
 
-        /* ===== TIMER ===== */
+        /* ================= TIMER ================= */
         .timer {
             display: flex;
             gap: 25px;
@@ -110,7 +109,7 @@
             margin-bottom: 8px;
         }
 
-        /* ===== SLIDESHOW ===== */
+        /* ================= SLIDESHOW ================= */
         .photo-container {
             position: relative;
             width: 300px;
@@ -138,7 +137,7 @@
             z-index: 1;
         }
 
-        /* ===== VIDEO ===== */
+        /* ================= VIDEO ================= */
         iframe {
             width: 80%;
             height: 400px;
@@ -151,7 +150,7 @@
             transform: scale(1);
         }
 
-        /* ===== FOOTER ===== */
+        /* ================= FOOTER ================= */
         .footer-text {
             margin-top: 40px;
             opacity: 0.7;
@@ -159,7 +158,7 @@
             line-height: 1.6;
         }
 
-        /* ===== NEXT BUTTON ===== */
+        /* ================= NEXT BUTTON ================= */
         #nextBtn {
             margin-top: 20px;
             font-size: 20px;
@@ -178,11 +177,13 @@
 </head>
 <body>
 
+    <!-- ================= AUDIO ================= -->
     <audio id="bg-music" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- SCENE 1 -->
+    <!-- ================= SCENES ================= -->
+    <!-- Scene 1: Opening Date -->
     <section id="scene1" class="active">
         <div>
             <div id="main" class="big">00 / 00 / 0000</div>
@@ -190,31 +191,31 @@
         </div>
     </section>
 
-    <!-- SCENE 2 -->
+    <!-- Scene 2: Reflection Text -->
     <section id="scene2">
         <div id="reflectionText" class="reflection"></div>
     </section>
 
-    <!-- SCENE 3 -->
+    <!-- Scene 3: Interaction -->
     <section id="scene3">
         <div id="interactionText">Sentuh Layar</div>
     </section>
 
-    <!-- SCENE 4 -->
+    <!-- Scene 4: Message Lines -->
     <section id="scene4">
         <div id="messageContainer"></div>
     </section>
 
-    <!-- SCENE 5 -->
+    <!-- Scene 5: Video -->
     <section id="scene5">
         <div>
-            <div>Gue buat video, ditonton yaa!! Ini buatnya effort banget loh!!</div>
+            <div>Gue buat video, ditonton yaa!! Ini effort banget loh!!</div>
             <iframe id="video" src="https://www.youtube.com/embed/W5GzFwkf58g" frameborder="0" allowfullscreen></iframe>
             <div id="nextBtn">Next</div>
         </div>
     </section>
 
-    <!-- SCENE 6 -->
+    <!-- Scene 6: Countdown & Slideshow -->
     <section id="scene6">
         <div>
             <div class="timer">
@@ -238,14 +239,15 @@
         </div>
     </section>
 
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
         const birthDate = new Date("2002-02-18");
         const firstMeet = new Date("2023-03-31");
         const today = new Date();
-
         const music = document.getElementById("bg-music");
         music.volume = 0.5;
 
+        // ===== HELPER FUNCTIONS =====
         function showScene(id) {
             document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
             document.getElementById(id).classList.add("active");
@@ -264,21 +266,26 @@
             requestAnimationFrame(animate);
         }
 
-        /* SCENE 1 */
+        // ===== SCENE 1: OPENING =====
         function startOpening() {
             const main = document.getElementById("main");
             const sub = document.getElementById("sub");
+
             setTimeout(() => {
                 main.textContent = "18 / 02 / 2026";
                 sub.textContent = "Hari ini.";
+
                 setTimeout(() => {
                     let age = today.getFullYear() - birthDate.getFullYear();
                     sub.textContent = "";
+
                     countUp(0, age, 2000, val => main.textContent = val, () => {
                         sub.textContent = "Lo sudah sejauh ini.";
+
                         setTimeout(() => {
                             let days = Math.floor((today - firstMeet) / (1000 * 60 * 60 * 24));
                             sub.textContent = "";
+
                             countUp(0, days, 2000, val => main.textContent = val, () => {
                                 sub.textContent = "Dan gue udah nemenin lo selama ini.";
                                 setTimeout(() => {
@@ -292,7 +299,7 @@
             }, 1000);
         }
 
-        /* SCENE 2 */
+        // ===== SCENE 2: REFLECTION =====
         function startReflection() {
             const reflections = [
                 "Jalannya ga selalu mudah. Tapi kita selalu berusaha buat nyoba terus.",
@@ -302,6 +309,7 @@
             ];
             const el = document.getElementById("reflectionText");
             let i = 0;
+
             function next() {
                 if (i < reflections.length) {
                     el.classList.remove("show");
@@ -319,12 +327,15 @@
             next();
         }
 
-        /* SCENE 3 */
+        // ===== SCENE 3: INTERACTION =====
         function startInteraction() {
             const el = document.getElementById("interactionText");
+
             document.body.onclick = function () {
                 el.style.animation = "none";
                 el.textContent = "Ga perlu hal besar buat memulai, Kadang satu hal kecil aja udah cukup.";
+                document.body.onclick = null; // prevent double click
+
                 setTimeout(() => {
                     showScene("scene4");
                     startMessage();
@@ -332,7 +343,7 @@
             };
         }
 
-        /* SCENE 4 */
+        // ===== SCENE 4: MESSAGE =====
         function startMessage() {
             const lines = [
                 "24...",
@@ -345,7 +356,10 @@
                 "Love, Ifa."
             ];
             const container = document.getElementById("messageContainer");
+            container.innerHTML = ""; // reset container
+
             let i = 0;
+
             function next() {
                 if (i < lines.length) {
                     const div = document.createElement("div");
@@ -363,7 +377,7 @@
             next();
         }
 
-        /* SCENE 5 (VIDEO) */
+        // ===== SCENE 5: VIDEO =====
         function startVideo() {
             const btn = document.getElementById("nextBtn");
             btn.onclick = function () {
@@ -373,25 +387,30 @@
             };
         }
 
-        /* SCENE 6 (COUNTDOWN + SLIDESHOW) */
+        // ===== SCENE 6: COUNTDOWN & SLIDESHOW =====
         function startCountdown() {
             const startDate = new Date("2023-03-31T00:00:00");
-            function update() {
+
+            function updateCountdown() {
                 const now = new Date();
                 let diff = now - startDate;
                 if (diff < 0) diff = 0;
+
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
                 const minutes = Math.floor((diff / (1000 * 60)) % 60);
                 const seconds = Math.floor((diff / 1000) % 60);
+
                 document.getElementById("days").textContent = days;
                 document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
                 document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
                 document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
             }
-            setInterval(update, 1000);
-            update();
 
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // Slideshow
             const photos = document.querySelectorAll(".countdown-photo");
             let index = 0;
             setInterval(() => {
@@ -401,7 +420,7 @@
             }, 3000);
         }
 
-        /* ===== START ===== */
+        // ===== START APP =====
         startOpening();
     </script>
 </body>
