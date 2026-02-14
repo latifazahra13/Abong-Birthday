@@ -197,47 +197,22 @@ iframe.show { opacity: 1; transform: scale(1); }
 </section>
 
 <script>
+/* ===== DATA ===== */
 const birthDate = new Date("2002-02-18");
 const firstMeet = new Date("2023-03-31");
 const today = new Date();
 
+/* ===== MUSIC ===== */
 const music = document.getElementById("bg-music");
 music.volume = 0.5;
 music.play().catch(()=>{
     document.body.addEventListener("click",()=>{music.play();},{once:true});
 });
 
+/* ===== HELPER ===== */
 function showScene(id){
     document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
     document.getElementById(id).classList.add("active");
-}
-
-/* SCENE 1 */
-function startOpening(){
-    const main=document.getElementById("main");
-    const sub=document.getElementById("sub");
-    setTimeout(()=>{
-        main.textContent="18 / 02 / 2026";
-        sub.textContent="Hari ini.";
-        setTimeout(()=>{
-            let age=today.getFullYear()-birthDate.getFullYear();
-            sub.textContent="";
-            countUp(0,age,2000,val=>main.textContent=val,()=>{
-                sub.textContent="Lo sudah sejauh ini.";
-                setTimeout(()=>{
-                    let days=Math.floor((today-firstMeet)/(1000*60*60*24));
-                    sub.textContent="";
-                    countUp(0,days,2000,val=>main.textContent=val,()=>{
-                        sub.textContent="Dan gue masih di sini.";
-                        setTimeout(()=>{
-                            showScene("scene2");
-                            startReflection();
-                        },5000);
-                    });
-                },2000);
-            });
-        },2000);
-    },1000);
 }
 
 function countUp(start,end,duration,update,done){
@@ -253,7 +228,35 @@ function countUp(start,end,duration,update,done){
     requestAnimationFrame(animate);
 }
 
-/* SCENE 2 */
+/* ===== SCENE 1 ===== */
+function startOpening(){
+    const main=document.getElementById("main");
+    const sub=document.getElementById("sub");
+    setTimeout(()=>{
+        main.textContent="18 / 02 / 2026";
+        sub.textContent="Hari ini.";
+        setTimeout(()=>{
+            let age=today.getFullYear()-birthDate.getFullYear();
+            sub.textContent="";
+            countUp(0,age,2000,val=>main.textContent=val,()=>{
+                sub.textContent="Lo sudah sejauh ini.";
+                setTimeout(()=>{
+                    let days=Math.floor((today-firstMeet)/(1000*60*60*24));
+                    sub.textContent="";
+                    countUp(0,days,2000,val=>main.textContent=val,()=>{
+                        sub.textContent="Dan gue nemenin lo selama ini.";
+                        setTimeout(()=>{
+                            showScene("scene2");
+                            startReflection();
+                        },5000);
+                    });
+                },2000);
+            });
+        },2000);
+    },1000);
+}
+
+/* ===== SCENE 2 ===== */
 function startReflection(){
     const reflections=[
         "Jalannya ga selalu mudah. Tapi kita selalu berusaha buat nyoba terus.",
@@ -280,7 +283,7 @@ function startReflection(){
     next();
 }
 
-/* SCENE 3 */
+/* ===== SCENE 3 ===== */
 function startInteraction(){
     const el=document.getElementById("interactionText");
     document.body.onclick=function(){
@@ -293,7 +296,7 @@ function startInteraction(){
     };
 }
 
-/* SCENE 4 */
+/* ===== SCENE 4 ===== */
 function startMessage(){
     const lines=[
         "24...",
@@ -324,24 +327,30 @@ function startMessage(){
     next();
 }
 
-/* SCENE 5 */
+/* ===== SCENE 5 (VIDEO) ===== */
 function startVideo(){
     const video = document.getElementById("video");
     video.classList.add("show");
+
+    // Load YouTube API jika belum ada
     if(!window.YT){
-        let tag=document.createElement('script');
-        tag.src="https://www.youtube.com/iframe_api";
+        let tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
         document.body.appendChild(tag);
-    } else onYouTubeIframeAPIReady();
+    } else {
+        onYouTubeIframeAPIReady();
+    }
 }
 
 let player;
 function onYouTubeIframeAPIReady(){
     player = new YT.Player('video', {
         events: {
-            'onReady': e=>e.target.playVideo(),
-            'onStateChange': event=>{
-                if(event.data===YT.PlayerState.ENDED){
+            'onReady': e => {
+                e.target.playVideo();
+            },
+            'onStateChange': event => {
+                if(event.data === YT.PlayerState.ENDED){
                     showScene("scene6");
                     startCountdown();
                 }
@@ -350,7 +359,7 @@ function onYouTubeIframeAPIReady(){
     });
 }
 
-/* SCENE 6 */
+/* ===== SCENE 6 (COUNTDOWN + SLIDESHOW) ===== */
 function startCountdown(){
     const startDate = new Date("2023-03-31T00:00:00");
     function update(){
@@ -378,6 +387,7 @@ function startCountdown(){
     },3000);
 }
 
+/* ===== START ===== */
 startOpening();
 </script>
 </body>
