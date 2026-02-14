@@ -76,7 +76,7 @@ section.active{
 
 /* ===== INTERACTION TEXT (SCENE 3) ===== */
 #interactionText{
-    font-size:28px; /* DIPERBESAR JADI 28PX */
+    font-size:28px;
     font-weight:bold;
     letter-spacing:2px;
     cursor:pointer;
@@ -194,7 +194,7 @@ iframe.show{
 <section id="scene5">
     <div>
         <div>Gue buat video, ditonton yaa!! Ini buatnya effort banget loh!!</div>
-        <iframe id="video" src="https://www.youtube.com/embed/W5GzFwkf58g" frameborder="0" allowfullscreen></iframe>
+        <iframe id="video" src="https://www.youtube.com/embed/W5GzFwkf58g?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
     </div>
 </section>
 
@@ -364,12 +364,40 @@ function startMessage(){
 
 /* SCENE 5 */
 function startVideo(){
-    const video=document.getElementById("video");
-    setTimeout(()=>video.classList.add("show"),2000);
-    setTimeout(()=>{
+    const video = document.getElementById("video");
+    setTimeout(()=> video.classList.add("show"), 2000);
+
+    // Load YouTube IFrame API
+    let tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+}
+
+// Variabel player global
+let player;
+
+// Panggilan otomatis oleh YouTube API
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('video', {
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+// Saat video siap, mainkan video
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
+
+// Deteksi status video
+function onPlayerStateChange(event) {
+    // 0 = video selesai
+    if(event.data === YT.PlayerState.ENDED){
         showScene("scene6");
         startCountdown();
-    },9000);
+    }
 }
 
 /* SCENE 6 */
