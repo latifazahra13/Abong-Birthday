@@ -7,81 +7,211 @@
 
 <style>
 /* =====================================================
-   GLOBAL
+   GLOBAL RESET & FONT
 ===================================================== */
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Courier New', monospace; }
-body { background:#0f172a; color:white; overflow:hidden; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Courier New', monospace;
+}
+
+body {
+  background: #0f172a;
+  color: white;
+  overflow: hidden;
+}
 
 /* =====================================================
    SCENE SYSTEM
 ===================================================== */
-.scene { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; text-align:center; padding:40px; opacity:0; pointer-events:none; transition:opacity 1.5s ease; }
-.scene.active { opacity:1; pointer-events:auto; }
+.scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+}
+
+.scene.active {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 /* =====================================================
-   TEXT
+   TEXT STYLES
 ===================================================== */
-.big { font-size:60px; letter-spacing:4px; }
-.small { margin-top:20px; opacity:0.7; }
-.reflection { font-size:30px; opacity:0; transform:translateY(20px); transition:1.5s; }
-.reflection.show { opacity:1; transform:translateY(0); }
-.line { margin:10px; font-size:24px; opacity:0; transform:scale(0.95); transition:1.2s; }
-.line.show { opacity:1; transform:scale(1); }
-#interactionText { font-size:28px; font-weight:bold; cursor:pointer; animation:pulse 2s infinite; }
-@keyframes pulse { 0%{opacity:0.6;transform:scale(1);}50%{opacity:1;transform:scale(1.05);}100%{opacity:0.6;transform:scale(1);} }
+.big {
+  font-size: 60px;
+  letter-spacing: 4px;
+}
+
+.small {
+  margin-top: 20px;
+  opacity: 0.7;
+}
+
+.reflection {
+  font-size: 30px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 1.5s;
+}
+
+.reflection.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.line {
+  margin: 10px;
+  font-size: 24px;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: 1.2s;
+}
+
+.line.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#interactionText {
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%   { opacity: 0.6; transform: scale(1); }
+  50%  { opacity: 1;   transform: scale(1.05); }
+  100% { opacity: 0.6; transform: scale(1); }
+}
 
 /* =====================================================
    VIDEO SECTION
 ===================================================== */
-.video-wrapper { display:flex; flex-direction:column; align-items:center; gap:25px; }
-iframe { width:80%; height:400px; border-radius:15px; }
-#nextBtn, #nextVideoBtn { padding:10px 25px; border:2px solid white; border-radius:10px; cursor:pointer; background:transparent; color:white; transition:0.3s; }
-#nextBtn:hover, #nextVideoBtn:hover { background:white; color:#0f172a; }
-
-/* =====================================================
-   TIMER
-===================================================== */
-.timer { display:flex; gap:25px; flex-wrap:wrap; justify-content:center; }
-.timer>div { background:rgba(255,255,255,0.05); padding:20px; border-radius:15px; min-width:100px; }
-.number { font-size:42px; font-weight:bold; }
-
-/* =====================================================
-   PHOTO
-===================================================== */
-.photo-container { position:relative; width:300px; height:420px; margin:40px auto; border-radius:20px; overflow:hidden; }
-.countdown-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:1s; }
-.countdown-photo.active { opacity:1; }
-.footer-text { max-width:600px; margin-top:30px; opacity:0.7; line-height:1.6; }
-
-/* =====================================================
-   BUTTON OPENING
-===================================================== */
-#openNextBtn button { 
-  padding:10px 25px; 
-  font-size:20px; 
-  border-radius:10px; 
-  cursor:pointer; 
-  border:2px solid white; 
-  background:transparent; 
-  color:white;
-  transition:0.3s;
+.video-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
 }
+
+iframe {
+  width: 80%;
+  height: 400px;
+  border-radius: 15px;
+}
+
+#nextBtn,
+#nextVideoBtn {
+  padding: 10px 25px;
+  border: 2px solid white;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  color: white;
+  transition: 0.3s;
+}
+
+#nextBtn:hover,
+#nextVideoBtn:hover {
+  background: white;
+  color: #0f172a;
+}
+
+/* =====================================================
+   TIMER / COUNTDOWN
+===================================================== */
+.timer {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.timer > div {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 15px;
+  min-width: 100px;
+}
+
+.number {
+  font-size: 42px;
+  font-weight: bold;
+}
+
+/* =====================================================
+   PHOTO CONTAINER
+===================================================== */
+.photo-container {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  margin: 40px auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.countdown-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: 1s;
+}
+
+.countdown-photo.active {
+  opacity: 1;
+}
+
+.footer-text {
+  max-width: 600px;
+  margin-top: 30px;
+  opacity: 0.7;
+  line-height: 1.6;
+}
+
+/* =====================================================
+   OPENING BUTTON
+===================================================== */
+#openNextBtn button {
+  padding: 10px 25px;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  transition: 0.3s;
+}
+
 #openNextBtn button:hover {
-  background:white; 
-  color:#0f172a;
+  background: white;
+  color: #0f172a;
 }
 
 /* =====================================================
-   MOBILE
+   MEDIA QUERIES (MOBILE)
 ===================================================== */
-@media (max-width:768px){
-  .big{font-size:36px;}
-  .reflection{font-size:20px;}
-  .line{font-size:18px;}
-  #interactionText{font-size:20px;}
-  iframe{width:100%; height:220px;}
-  .photo-container{width:220px;height:320px;}
-  .number{font-size:28px;}
+@media (max-width: 768px) {
+  .big { font-size: 36px; }
+  .reflection { font-size: 20px; }
+  .line { font-size: 18px; }
+  #interactionText { font-size: 20px; }
+  iframe { width: 100%; height: 220px; }
+  .photo-container { width: 220px; height: 320px; }
+  .number { font-size: 28px; }
 }
 </style>
 </head>
@@ -134,7 +264,7 @@ iframe { width:80%; height:400px; border-radius:15px; }
   <div class="video-wrapper">
     <div>Gue buat video, ditonton yaa!! Ini effort loh gue ngeditnya!!</div>
     <iframe id="videoFrame" src="" allow="autoplay" allowfullscreen></iframe>
-    <div id="nextBtn">Next</div>
+    <div id="nextBtn">Hai Ifa</div>
   </div>
 </section>
 
@@ -166,10 +296,9 @@ iframe { width:80%; height:400px; border-radius:15px; }
 </section>
 
 <!-- =====================================================
-   YOUTUBE IFRAME API
+   YOUTUBE IFRAME API + JS
 ===================================================== -->
 <script src="https://www.youtube.com/iframe_api"></script>
-
 <script>
 /* =====================================================
    DATA & INIT
@@ -182,9 +311,9 @@ music.volume = 0.5;
 let player;
 
 /* =====================================================
-   AUTOPLAY MUSIC LANGSUNG
+   AUTOPLAY MUSIC
 ===================================================== */
-music.play().catch(()=>{}); // autoplay di load
+music.play().catch(()=>{}); // autoplay saat load
 
 /* =====================================================
    SCENE UTILITIES
@@ -212,11 +341,7 @@ function countUp(start,end,duration,update,done){
 ===================================================== */
 document.querySelector("#openNextBtn button").onclick = function(){
   showScene("scene1");
-
-  // Jeda 3 detik sebelum countup dimulai
-  setTimeout(() => {
-    startOpening();
-  }, 3000);
+  setTimeout(() => { startOpening(); }, 3000);
 };
 
 /* =====================================================
@@ -231,7 +356,7 @@ function startOpening(){
     sub.textContent="Hari ini.";
 
     setTimeout(()=>{
-      let age=today.getFullYear()-birthDate.getFullYear();
+      let age = today.getFullYear() - birthDate.getFullYear();
       sub.textContent="";
       countUp(0,age,2000,val=>main.textContent=val,()=>{
         sub.textContent="Lo sudah sejauh ini.";
@@ -269,7 +394,7 @@ function startReflection(){
         i++;
         setTimeout(next,4000);
       },1000);
-    }else{
+    } else {
       showScene("scene3");
       startInteraction();
     }
@@ -316,7 +441,7 @@ function startMessage(){
       setTimeout(()=>div.classList.add("show"),100);
       i++;
       setTimeout(next,2000);
-    }else{
+    } else {
       showScene("scene5");
       startVideo();
     }
@@ -325,7 +450,7 @@ function startMessage(){
 }
 
 /* =====================================================
-   SCENE 5: VIDEO"
+   SCENE 5: VIDEO
 ===================================================== */
 const ytFrame = document.getElementById("videoFrame");
 ytFrame.src = `https://www.youtube.com/embed/W5GzFwkf58g?enablejsapi=1&origin=${window.location.origin}`;
@@ -348,11 +473,11 @@ function onPlayerStateChange(event){
   }
 }
 
-// Tombol "Hai Ifa" → lanjut ke countdown, tidak pause video
+// Tombol "Hai Ifa" → lanjut ke countdown, video tetap jalan
 document.getElementById("nextBtn").onclick = function(){
-  music.play().catch(()=>{});
   showScene("scene6");
   startCountdown();
+  music.play().catch(()=>{});
 };
 
 /* =====================================================
@@ -360,23 +485,26 @@ document.getElementById("nextBtn").onclick = function(){
 ===================================================== */
 function startCountdown(){
   const startDate=new Date("2023-03-31T00:00:00");
+
   function update(){
-    const now=new Date();
-    let diff=now-startDate;
+    const now = new Date();
+    let diff = now - startDate;
     if(diff<0) diff=0;
     const days=Math.floor(diff/(1000*60*60*24));
     const hours=Math.floor((diff/(1000*60*60))%24);
     const minutes=Math.floor((diff/(1000*60))%60);
     const seconds=Math.floor((diff/1000)%60);
+
     document.getElementById("days").textContent=days;
     document.getElementById("hours").textContent=hours.toString().padStart(2,"0");
     document.getElementById("minutes").textContent=minutes.toString().padStart(2,"0");
     document.getElementById("seconds").textContent=seconds.toString().padStart(2,"0");
   }
+
   update();
   setInterval(update,1000);
 
-  const photos=document.querySelectorAll(".countdown-photo");
+  const photos = document.querySelectorAll(".countdown-photo");
   let index=0;
   setInterval(()=>{
     photos.forEach(p=>p.classList.remove("active"));
@@ -386,17 +514,19 @@ function startCountdown(){
 }
 
 /* =====================================================
-   Tombol "Next" → pause video + musik jalan
+   Tombol "Next" (opsional) → pause video, musik jalan
 ===================================================== */
-document.getElementById("nextVideoBtn").onclick = function(){
-  if(player && typeof player.pauseVideo === "function"){
-    player.pauseVideo();
-  }
-  music.play().catch(()=>{});
-  showScene("scene6");
-  startCountdown();
-};
+const nextVideoBtn = document.getElementById("nextVideoBtn");
+if(nextVideoBtn){
+  nextVideoBtn.onclick = function(){
+    if(player && typeof player.pauseVideo === "function"){
+      player.pauseVideo();
+    }
+    music.play().catch(()=>{});
+    showScene("scene6");
+    startCountdown();
+  };
+}
 </script>
-
 </body>
 </html>
