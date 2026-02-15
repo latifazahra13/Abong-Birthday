@@ -16,6 +16,26 @@
   font-family: 'Courier New', monospace;
 }
 
+<!-- Tambahkan tepat sebelum </body> -->
+<div id="love-note">With Love, Fa 💖</div>
+
+<style>
+/* =====================================================
+   FIXED LOVE NOTE
+===================================================== */
+#love-note {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  font-size: 16px;
+  color: #ff77aa;
+  font-weight: bold;
+  opacity: 0.8;
+  pointer-events: none; /* tidak mengganggu klik */
+  z-index: 9999;
+}
+</style>
+
 body {
   background: #0f172a;
   color: white;
@@ -493,3 +513,4 @@ function startCountdown(){
 </script>
 </body>
 </html>
+
