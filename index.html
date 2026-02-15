@@ -46,15 +46,8 @@ body {
 /* =====================================================
    TEXT STYLES
 ===================================================== */
-.big {
-  font-size: 60px;
-  letter-spacing: 4px;
-}
-
-.small {
-  margin-top: 20px;
-  opacity: 0.7;
-}
+.big { font-size: 60px; letter-spacing: 4px; }
+.small { margin-top: 20px; opacity: 0.7; }
 
 .reflection {
   font-size: 30px;
@@ -62,11 +55,7 @@ body {
   transform: translateY(20px);
   transition: 1.5s;
 }
-
-.reflection.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reflection.show { opacity: 1; transform: translateY(0); }
 
 .line {
   margin: 10px;
@@ -75,11 +64,7 @@ body {
   transform: scale(0.95);
   transition: 1.2s;
 }
-
-.line.show {
-  opacity: 1;
-  transform: scale(1);
-}
+.line.show { opacity: 1; transform: scale(1); }
 
 #interactionText {
   font-size: 28px;
@@ -120,7 +105,6 @@ iframe {
   color: white;
   transition: 0.3s;
 }
-
 #nextBtn:hover,
 #nextVideoBtn:hover {
   background: white;
@@ -171,9 +155,7 @@ iframe {
   transition: 1s;
 }
 
-.countdown-photo.active {
-  opacity: 1;
-}
+.countdown-photo.active { opacity: 1; }
 
 .footer-text {
   max-width: 600px;
@@ -195,7 +177,6 @@ iframe {
   color: white;
   transition: 0.3s;
 }
-
 #openNextBtn button:hover {
   background: white;
   color: #0f172a;
@@ -231,7 +212,7 @@ iframe {
   <div>
     <div class="big">Hai, Febrian Rizky Anugrah!</div>
     <div id="openNextBtn" style="margin-top:30px;">
-      <button>Hai Ifa</button>
+      <button>Next</button>
     </div>
   </div>
 </section>
@@ -259,12 +240,12 @@ iframe {
   <div id="messageContainer"></div>
 </section>
 
-<!-- Scene 5: Video + Tombol "Hai Ifa" -->
+<!-- Scene 5: Video + Tombol "Next" -->
 <section id="scene5" class="scene">
   <div class="video-wrapper">
     <div>Gue buat video, ditonton yaa!! Ini effort loh gue ngeditnya!!</div>
     <iframe id="videoFrame" src="" allow="autoplay" allowfullscreen></iframe>
-    <div id="nextBtn">Next</div>
+    <div id="nextBtn">Next</div> 
   </div>
 </section>
 
@@ -300,9 +281,6 @@ iframe {
 ===================================================== -->
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-/* =====================================================
-   DATA & INIT
-===================================================== */
 const birthDate = new Date("2002-02-18");
 const firstMeet = new Date("2023-03-31");
 const today = new Date();
@@ -310,14 +288,14 @@ const music = document.getElementById("bg-music");
 music.volume = 0.5;
 let player;
 
-/* =====================================================
-   AUTOPLAY MUSIC
-===================================================== */
-music.play().catch(()=>{}); // autoplay saat load
+// ======================================================
+// AUTOPLAY MUSIC
+// ======================================================
+music.play().catch(()=>{});
 
-/* =====================================================
-   SCENE UTILITIES
-===================================================== */
+// ======================================================
+// SCENE UTILITIES
+// ======================================================
 function showScene(id){
   document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
@@ -336,17 +314,17 @@ function countUp(start,end,duration,update,done){
   requestAnimationFrame(animate);
 }
 
-/* =====================================================
-   SCENE 0: OPENING
-===================================================== */
+// ======================================================
+// SCENE 0: OPENING
+// ======================================================
 document.querySelector("#openNextBtn button").onclick = function(){
   showScene("scene1");
   setTimeout(() => { startOpening(); }, 3000);
 };
 
-/* =====================================================
-   SCENE 1: TANGGAL & COUNTUP
-===================================================== */
+// ======================================================
+// SCENE 1: TANGGAL & COUNTUP
+// ======================================================
 function startOpening(){
   const main=document.getElementById("main");
   const sub=document.getElementById("sub");
@@ -373,9 +351,9 @@ function startOpening(){
   },1000);
 }
 
-/* =====================================================
-   SCENE 2: REFLECTION
-===================================================== */
+// ======================================================
+// SCENE 2: REFLECTION
+// ======================================================
 function startReflection(){
   const reflections=[
     "Jalannya ga selalu mudah. Tapi kita selalu berusaha buat nyoba terus.",
@@ -402,9 +380,9 @@ function startReflection(){
   next();
 }
 
-/* =====================================================
-   SCENE 3: INTERACTION
-===================================================== */
+// ======================================================
+// SCENE 3: INTERACTION
+// ======================================================
 function startInteraction(){
   const el=document.getElementById("interactionText");
   document.body.onclick=function(){
@@ -415,9 +393,9 @@ function startInteraction(){
   };
 }
 
-/* =====================================================
-   SCENE 4: MESSAGES
-===================================================== */
+// ======================================================
+// SCENE 4: MESSAGES
+// ======================================================
 function startMessage(){
   const lines=[
     "24...",
@@ -449,9 +427,9 @@ function startMessage(){
   next();
 }
 
-/* =====================================================
-   SCENE 5: VIDEO
-===================================================== */
+// ======================================================
+// SCENE 5: VIDEO
+// ======================================================
 const ytFrame = document.getElementById("videoFrame");
 ytFrame.src = `https://www.youtube.com/embed/W5GzFwkf58g?enablejsapi=1&origin=${window.location.origin}`;
 
@@ -473,16 +451,16 @@ function onPlayerStateChange(event){
   }
 }
 
-// Tombol "Hai Ifa" → lanjut ke countdown, video tetap jalan
+// Tombol "Next" → lanjut ke countdown, video tetap jalan
 document.getElementById("nextBtn").onclick = function(){
   showScene("scene6");
   startCountdown();
-  music.play().catch(()=>{});
+  // musik tidak dipaksa play supaya tetap sinkron dengan video
 };
 
-/* =====================================================
-   SCENE 6: COUNTDOWN + PHOTOS
-===================================================== */
+// ======================================================
+// SCENE 6: COUNTDOWN + PHOTOS
+// ======================================================
 function startCountdown(){
   const startDate=new Date("2023-03-31T00:00:00");
 
@@ -512,22 +490,6 @@ function startCountdown(){
     photos[index].classList.add("active");
   },3000);
 }
-
-/* =====================================================
-   Tombol "Next" (opsional) → pause video, musik jalan
-===================================================== */
-const nextVideoBtn = document.getElementById("nextVideoBtn");
-if(nextVideoBtn){
-  nextVideoBtn.onclick = function(){
-    if(player && typeof player.pauseVideo === "function"){
-      player.pauseVideo();
-    }
-    music.play().catch(()=>{});
-    showScene("scene6");
-    startCountdown();
-  };
-}
 </script>
 </body>
-
 </html>
