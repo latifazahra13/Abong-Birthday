@@ -54,6 +54,24 @@ iframe { width:80%; height:400px; border-radius:15px; }
 .footer-text { max-width:600px; margin-top:30px; opacity:0.7; line-height:1.6; }
 
 /* =====================================================
+   BUTTON OPENING
+===================================================== */
+#openNextBtn button { 
+  padding:10px 25px; 
+  font-size:20px; 
+  border-radius:10px; 
+  cursor:pointer; 
+  border:2px solid white; 
+  background:transparent; 
+  color:white;
+  transition:0.3s;
+}
+#openNextBtn button:hover {
+  background:white; 
+  color:#0f172a;
+}
+
+/* =====================================================
    MOBILE
 ===================================================== */
 @media (max-width:768px){
@@ -74,26 +92,44 @@ iframe { width:80%; height:400px; border-radius:15px; }
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- SCENES -->
-<section id="scene1" class="scene active">
+<!-- =====================================================
+   SCENES
+===================================================== -->
+
+<!-- Scene 0: Opening -->
+<section id="scene0" class="scene active">
+  <div>
+    <div class="big" font-size:50px> Hai, Febrian Rizky Anugrah!</div>
+    <div id="openNextBtn" style="margin-top:30px;">
+      <button>Hai, Ifa</button>
+    </div>
+  </div>
+</section>
+
+<!-- Scene 1: Tanggal & Countup -->
+<section id="scene1" class="scene">
   <div>
     <div id="main" class="big">00 / 00 / 0000</div>
     <div id="sub" class="small"></div>
   </div>
 </section>
 
+<!-- Scene 2: Reflection -->
 <section id="scene2" class="scene">
   <div id="reflectionText" class="reflection"></div>
 </section>
 
+<!-- Scene 3: Interaction -->
 <section id="scene3" class="scene">
   <div id="interactionText">Sentuh Layar</div>
 </section>
 
+<!-- Scene 4: Messages -->
 <section id="scene4" class="scene">
   <div id="messageContainer"></div>
 </section>
 
+<!-- Scene 5: Video  -->
 <section id="scene5" class="scene">
   <div class="video-wrapper">
     <div>Gue buat video, ditonton yaa!! Ini effort loh gue ngeditnya!!</div>
@@ -106,6 +142,7 @@ iframe { width:80%; height:400px; border-radius:15px; }
   </div>
 </section>
 
+<!-- Scene 6: Countdown + Photos -->
 <section id="scene6" class="scene">
   <div>
     <div class="timer">
@@ -132,8 +169,11 @@ iframe { width:80%; height:400px; border-radius:15px; }
   </div>
 </section>
 
-<!-- YOUTUBE IFRAME API -->
+<!-- =====================================================
+   YOUTUBE IFRAME API
+===================================================== -->
 <script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
 /* =====================================================
    DATA & INIT
@@ -143,48 +183,15 @@ const firstMeet = new Date("2023-03-31");
 const today = new Date();
 const music = document.getElementById("bg-music");
 music.volume = 0.5;
-let musicStarted = false;
 let player;
 
 /* =====================================================
-   START MUSIC AFTER FIRST CLICK
+   AUTOPLAY MUSIC LANGSUNG
 ===================================================== */
-document.addEventListener("click", ()=>{
-  if(!musicStarted){
-    music.play().catch(()=>{});
-    musicStarted = true;
-  }
-}, {once:true});
+music.play().catch(()=>{}); // autoplay di load
 
 /* =====================================================
-   SET YOUTUBE IFRAME SRC DENGAN ORIGIN DYNAMIC
-===================================================== */
-const ytFrame = document.getElementById("videoFrame");
-ytFrame.src = `https://www.youtube.com/embed/W5GzFwkf58g?enablejsapi=1&origin=${window.location.origin}`;
-
-/* =====================================================
-   YOUTUBE API HANDLER
-===================================================== */
-function onYouTubeIframeAPIReady(){
-  player = new YT.Player("videoFrame", {
-    events:{
-      onReady:()=>console.log("YT Player ready"),
-      onStateChange: onPlayerStateChange
-    }
-  });
-}
-
-function onPlayerStateChange(event){
-  if(event.data === YT.PlayerState.PLAYING){
-    music.pause();
-  }
-  if(event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED){
-    music.play().catch(()=>{});
-  }
-}
-
-/* =====================================================
-   UTILITIES
+   SCENE UTILITIES
 ===================================================== */
 function showScene(id){
   document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
@@ -205,7 +212,18 @@ function countUp(start,end,duration,update,done){
 }
 
 /* =====================================================
-   SCENE FLOW
+   START OPENING
+===================================================== */
+document.querySelector("#openNextBtn button").onclick = function(){
+  showScene("scene1"); // pindah ke scene tanggal
+  // jeda 3 detik sebelum countup
+  setTimeout(() => {
+    startOpening();
+  }, 1500); // = 1.5 detik
+};
+
+/* =====================================================
+   SCENE 1: TANGGAL & COUNTUP
 ===================================================== */
 function startOpening(){
   const main=document.getElementById("main");
@@ -233,6 +251,9 @@ function startOpening(){
   },1000);
 }
 
+/* =====================================================
+   SCENE 2: REFLECTION
+===================================================== */
 function startReflection(){
   const reflections=[
     "Jalannya ga selalu mudah. Tapi kita selalu berusaha buat nyoba terus.",
@@ -259,6 +280,9 @@ function startReflection(){
   next();
 }
 
+/* =====================================================
+   SCENE 3: INTERACTION
+===================================================== */
 function startInteraction(){
   const el=document.getElementById("interactionText");
   document.body.onclick=function(){
@@ -269,6 +293,9 @@ function startInteraction(){
   };
 }
 
+/* =====================================================
+   SCENE 4: MESSAGES
+===================================================== */
 function startMessage(){
   const lines=[
     "24...",
@@ -300,6 +327,30 @@ function startMessage(){
   next();
 }
 
+/* =====================================================
+   SCENE 5: VIDEO + TOMBOL "Hai Ifa"
+===================================================== */
+const ytFrame = document.getElementById("videoFrame");
+ytFrame.src = `https://www.youtube.com/embed/W5GzFwkf58g?enablejsapi=1&origin=${window.location.origin}`;
+
+function onYouTubeIframeAPIReady(){
+  player = new YT.Player("videoFrame", {
+    events:{
+      onReady:()=>console.log("YT Player ready"),
+      onStateChange: onPlayerStateChange
+    }
+  });
+}
+
+function onPlayerStateChange(event){
+  if(event.data === YT.PlayerState.PLAYING){
+    music.pause();
+  }
+  if(event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED){
+    music.play().catch(()=>{});
+  }
+}
+
 function startVideo(){
   document.getElementById("nextBtn").onclick=function(){
     music.play().catch(()=>{});
@@ -308,6 +359,9 @@ function startVideo(){
   };
 }
 
+/* =====================================================
+   SCENE 6: COUNTDOWN & PHOTO SLIDESHOW
+===================================================== */
 function startCountdown(){
   const startDate=new Date("2023-03-31T00:00:00");
   function update(){
@@ -334,11 +388,6 @@ function startCountdown(){
     photos[index].classList.add("active");
   },3000);
 }
-
-/* =====================================================
-   START
-===================================================== */
-startOpening();
 </script>
 
 </body>
