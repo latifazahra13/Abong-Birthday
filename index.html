@@ -57,15 +57,8 @@ body {
 /* ======================================================
    3. TYPOGRAPHY
 ====================================================== */
-.big {
-  font-size: 60px;
-  letter-spacing: 4px;
-}
-
-.small {
-  margin-top: 20px;
-  opacity: 0.7;
-}
+.big { font-size: 60px; letter-spacing: 4px; }
+.small { margin-top: 20px; opacity: 0.7; }
 
 .reflection {
   font-size: 30px;
@@ -73,11 +66,7 @@ body {
   transform: translateY(20px);
   transition: var(--transition-slow);
 }
-
-.reflection.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reflection.show { opacity: 1; transform: translateY(0); }
 
 .line {
   margin: 10px;
@@ -86,11 +75,7 @@ body {
   transform: scale(0.95);
   transition: var(--transition-normal);
 }
-
-.line.show {
-  opacity: 1;
-  transform: scale(1);
-}
+.line.show { opacity: 1; transform: scale(1); }
 
 /* ======================================================
    4. BUTTONS
@@ -113,7 +98,7 @@ button:hover,
 }
 
 /* ======================================================
-   5. INTERACTION TEXT
+   5. INTERACTION
 ====================================================== */
 #interactionText {
   font-size: 28px;
@@ -123,13 +108,13 @@ button:hover,
 }
 
 @keyframes pulse {
-  0%   { opacity: 0.6; transform: scale(1); }
-  50%  { opacity: 1;   transform: scale(1.05); }
+  0% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
   100% { opacity: 0.6; transform: scale(1); }
 }
 
 /* ======================================================
-   6. VIDEO SECTION
+   6. VIDEO
 ====================================================== */
 .video-wrapper {
   display: flex;
@@ -145,7 +130,7 @@ iframe {
 }
 
 /* ======================================================
-   7. TIMER SECTION
+   7. TIMER
 ====================================================== */
 .timer {
   display: flex;
@@ -167,7 +152,7 @@ iframe {
 }
 
 /* ======================================================
-   8. PHOTO CAROUSEL
+   8. PHOTO
 ====================================================== */
 .photo-container {
   position: relative;
@@ -188,12 +173,10 @@ iframe {
   transition: 1s;
 }
 
-.countdown-photo.active {
-  opacity: 1;
-}
+.countdown-photo.active { opacity: 1; }
 
 /* ======================================================
-   9. FOOTER NOTE
+   9. FOOTER
 ====================================================== */
 .footer-text {
   max-width: 600px;
@@ -235,7 +218,7 @@ iframe {
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- SCENES -->
+<!-- ================= SCENE 0 ================= -->
 <section id="scene0" class="scene active">
   <div>
     <div class="big">Hai, Febrian Rizky Anugrah!</div>
@@ -245,55 +228,84 @@ iframe {
   </div>
 </section>
 
-<!-- (Scene lainnya tetap sama seperti versi kamu, tidak diubah strukturnya) -->
+<!-- ================= SCENE 1 ================= -->
+<section id="scene1" class="scene">
+  <div>
+    <div id="main" class="big">00</div>
+    <div id="sub" class="small"></div>
+  </div>
+</section>
+
+<!-- ================= SCENE 2 ================= -->
+<section id="scene2" class="scene">
+  <div id="reflectionText" class="reflection"></div>
+</section>
+
+<!-- ================= SCENE 3 ================= -->
+<section id="scene3" class="scene">
+  <div id="interactionText">Sentuh Layar</div>
+</section>
+
+<!-- ================= SCENE 4 ================= -->
+<section id="scene4" class="scene">
+  <div id="messageContainer"></div>
+</section>
+
+<!-- ================= SCENE 5 ================= -->
+<section id="scene5" class="scene">
+  <div class="video-wrapper">
+    <div>Gue buat video, ditonton yaa!!</div>
+    <iframe id="videoFrame"
+      src="https://www.youtube.com/embed/W5GzFwkf58g?enablejsapi=1"
+      allow="autoplay"
+      allowfullscreen>
+    </iframe>
+    <div id="nextBtn">Next</div>
+  </div>
+</section>
+
+<!-- ================= SCENE 6 ================= -->
+<section id="scene6" class="scene">
+  <div>
+    <div class="timer">
+      <div><div class="number" id="days"></div>Hari</div>
+      <div><div class="number" id="hours"></div>Jam</div>
+      <div><div class="number" id="minutes"></div>Menit</div>
+      <div><div class="number" id="seconds"></div>Detik</div>
+    </div>
+  </div>
+</section>
 
 <div id="love-note">With Love, Fa 💖</div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-/* ======================================================
-   GLOBAL
-====================================================== */
 const music = document.getElementById("bg-music");
 music.volume = 0.5;
 let player;
 
-/* ======================================================
-   SCENE SWITCHER
-====================================================== */
+/* Scene Switch */
 function showScene(id){
-  document.querySelectorAll(".scene").forEach(scene=>{
-    scene.classList.remove("active");
-  });
+  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-/* ======================================================
-   START BUTTON (FIX AUTOPLAY MOBILE)
-====================================================== */
-document.getElementById("startBtn").addEventListener("click", () => {
-
+/* Start Button - AUTOPLAY SAFE */
+document.getElementById("startBtn").addEventListener("click", ()=>{
   music.currentTime = 0;
-
-  music.play()
-    .then(()=> console.log("Music started"))
-    .catch(err => console.log("Autoplay blocked:", err));
-
+  music.play().catch(()=>{});
   showScene("scene1");
-
-  setTimeout(()=>{
-    startOpening();
-  },3000);
 });
 
-/* ======================================================
-   YOUTUBE API
-====================================================== */
+/* Next ke countdown */
+document.getElementById("nextBtn").addEventListener("click", ()=>{
+  showScene("scene6");
+});
+
+/* YouTube Control */
 function onYouTubeIframeAPIReady(){
   player = new YT.Player("videoFrame", {
-    events:{
-      onStateChange: onPlayerStateChange
-    }
+    events:{ onStateChange:onPlayerStateChange }
   });
 }
 
@@ -301,7 +313,7 @@ function onPlayerStateChange(event){
   if(event.data === YT.PlayerState.PLAYING){
     music.pause();
   }
-  if(event.data === YT.PlayerState.PAUSED || 
+  if(event.data === YT.PlayerState.PAUSED ||
      event.data === YT.PlayerState.ENDED){
     music.play().catch(()=>{});
   }
